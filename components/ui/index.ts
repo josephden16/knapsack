@@ -28,4 +28,6 @@ export { PageHeader } from "./PageHeader";
 
 export { SentimentDonut } from "./SentimentDonut";
 
+export { ShareModal } from "./ShareModal";
+
 export { UploadModal } from "./UploadModal";

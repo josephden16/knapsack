@@ -12,6 +12,7 @@ import {
   PageHeader,
   Breadcrumb,
 } from "@/components/ui";
+import { ShareModal } from "@/components/ui/ShareModal";
 import type { KpiMetric } from "@/components/ui";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -97,6 +98,7 @@ export default function CampaignOverviewPage() {
   const router = useRouter();
   const [token, setToken] = useState<string | null>(null);
   const [authReady, setAuthReady] = useState(false);
+  const [shareOpen, setShareOpen] = useState(false);
 
   // Resolve Firebase auth and grab an ID token for API calls
   useEffect(() => {
@@ -249,14 +251,59 @@ export default function CampaignOverviewPage() {
         />
 
         <main className="max-w-[1160px] mx-auto px-6 py-10">
-          {/* Breadcrumb */}
-          <div className="mb-8">
+          {/* Breadcrumb + share button row */}
+          <div className="mb-8 flex items-center justify-between">
             <Breadcrumb
               segments={[
                 { label: "Campaigns", href: "/" },
                 { label: campaign.name },
               ]}
             />
+            <button
+              type="button"
+              onClick={() => setShareOpen(true)}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg text-[13px] font-semibold border transition-colors"
+              style={{
+                borderColor: "#00B140",
+                color: "#00B140",
+                background: "white",
+              }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.background = "#E6F7ED")
+              }
+              onMouseLeave={(e) => (e.currentTarget.style.background = "white")}
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <circle
+                  cx="11"
+                  cy="3"
+                  r="2"
+                  stroke="#00B140"
+                  strokeWidth="1.3"
+                />
+                <circle
+                  cx="3"
+                  cy="7"
+                  r="2"
+                  stroke="#00B140"
+                  strokeWidth="1.3"
+                />
+                <circle
+                  cx="11"
+                  cy="11"
+                  r="2"
+                  stroke="#00B140"
+                  strokeWidth="1.3"
+                />
+                <path
+                  d="M5 6L9 4M5 8L9 10"
+                  stroke="#00B140"
+                  strokeWidth="1.3"
+                  strokeLinecap="round"
+                />
+              </svg>
+              Share
+            </button>
           </div>
 
           {/* ── Top of Funnel — Awareness ─────────────────────────── */}
@@ -300,6 +347,14 @@ export default function CampaignOverviewPage() {
           </p>
         </footer>
       </div>
+
+      {shareOpen && (
+        <ShareModal
+          campaignSlug={campaignSlug}
+          campaignName={campaign.name}
+          onClose={() => setShareOpen(false)}
+        />
+      )}
     </GranularityProvider>
   );
 }

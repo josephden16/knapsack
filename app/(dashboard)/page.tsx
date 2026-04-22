@@ -7,6 +7,7 @@ import { auth } from "@/lib/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { formatMetric } from "@/lib/format";
 import { UploadModal } from "@/components/ui/UploadModal";
+import { ShareModal } from "@/components/ui/ShareModal";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -76,9 +77,11 @@ function StatusPill({ status }: { status: "active" | "completed" }) {
 function ThreeDotsMenu({
   onView,
   onDelete,
+  onShare,
 }: {
   onView: () => void;
   onDelete: () => void;
+  onShare: () => void;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -126,6 +129,16 @@ function ThreeDotsMenu({
             type="button"
             onClick={() => {
               setOpen(false);
+              onShare();
+            }}
+            className="w-full px-4 py-2.5 text-left text-[13px] text-text-primary hover:bg-page transition-colors"
+          >
+            Share
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setOpen(false);
               onDelete();
             }}
             className="w-full px-4 py-2.5 text-left text-[13px] text-red-500 hover:bg-red-50 transition-colors"
@@ -141,9 +154,11 @@ function ThreeDotsMenu({
 function CampaignCard({
   campaign,
   onDelete,
+  onShare,
 }: {
   campaign: CampaignSummary;
   onDelete: (slug: string) => void;
+  onShare: (slug: string, name: string) => void;
 }) {
   const router = useRouter();
   const isActive = campaign.status === "active";
@@ -171,6 +186,7 @@ function CampaignCard({
             <ThreeDotsMenu
               onView={() => router.push(`/${campaign.slug}`)}
               onDelete={() => onDelete(campaign.slug)}
+              onShare={() => onShare(campaign.slug, campaign.name)}
             />
           </div>
         </div>
@@ -375,6 +391,10 @@ function EmptyState({ onUpload }: { onUpload: () => void }) {
 export default function HomePage() {
   const [token, setToken] = useState<string | null>(null);
   const [uploadOpen, setUploadOpen] = useState(false);
+  const [shareTarget, setShareTarget] = useState<{
+    slug: string;
+    name: string;
+  } | null>(null);
 
   useEffect(() => {
     const tryGetToken = async () => {
@@ -624,7 +644,12 @@ export default function HomePage() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             {campaigns.map((c) => (
-              <CampaignCard key={c.id} campaign={c} onDelete={handleDelete} />
+              <CampaignCard
+                key={c.id}
+                campaign={c}
+                onDelete={handleDelete}
+                onShare={(slug, name) => setShareTarget({ slug, name })}
+              />
             ))}
           </div>
         )}
@@ -642,6 +667,14 @@ export default function HomePage() {
         <UploadModal
           onClose={() => setUploadOpen(false)}
           onUploaded={() => mutate()}
+        />
+      )}
+
+      {shareTarget && (
+        <ShareModal
+          campaignSlug={shareTarget.slug}
+          campaignName={shareTarget.name}
+          onClose={() => setShareTarget(null)}
         />
       )}
     </div>

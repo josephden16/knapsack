@@ -11,6 +11,7 @@ import {
   YAxis,
 } from "recharts";
 import { abbreviate } from "@/lib/format";
+import { useGranularity } from "./GranularityContext";
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -274,9 +275,8 @@ function QuarterlyBarChart({
 // ── ChartPair ──────────────────────────────────────────────────────────────
 
 /**
- * Renders a white card containing two charts side by side:
- *   Left  — AreaChart (monthly line with fill)
- *   Right — BarChart  (quarterly bars with rounded tops)
+ * Renders a white card with either the monthly area chart or the quarterly
+ * bar chart, based on the GranularityContext value set by the page header toggle.
  *
  * Spec §7.2
  */
@@ -287,32 +287,25 @@ export function ChartPair({
   color,
   fillColor,
 }: ChartPairProps) {
+  const { granularity } = useGranularity();
+
   return (
     <div
       className="bg-white rounded-card-lg shadow-card"
       style={{ padding: "20px 24px" }}
     >
-      <div className="grid grid-cols-2 gap-6">
-        {/* Monthly */}
-        <div>
-          <p className="text-[13px] font-semibold text-text-primary mb-3">
-            {metric} · Monthly
-          </p>
-          <MonthlyAreaChart
-            data={monthlyData}
-            color={color}
-            fillColor={fillColor}
-          />
-        </div>
-
-        {/* Quarterly */}
-        <div>
-          <p className="text-[13px] font-semibold text-text-primary mb-3">
-            {metric} · Quarterly
-          </p>
-          <QuarterlyBarChart data={quarterlyData} color={color} />
-        </div>
-      </div>
+      <p className="text-[13px] font-semibold text-text-primary mb-3">
+        {metric} · {granularity === "monthly" ? "Monthly" : "Quarterly"}
+      </p>
+      {granularity === "monthly" ? (
+        <MonthlyAreaChart
+          data={monthlyData}
+          color={color}
+          fillColor={fillColor}
+        />
+      ) : (
+        <QuarterlyBarChart data={quarterlyData} color={color} />
+      )}
     </div>
   );
 }

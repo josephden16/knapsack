@@ -36,16 +36,13 @@ export function PageHeader({
   const { granularity, setGranularity } = useGranularity();
 
   return (
-    <header
-      className="bg-white sticky top-0 z-10 px-6 py-3"
-      style={{ boxShadow: "var(--shadow-header)" }}
-    >
-      <div className="flex items-center justify-between gap-4">
+    <header className="bg-white border-b border-border-default sticky top-0 z-10 px-6 h-16 flex items-center shadow-header">
+      <div className="flex items-center justify-between gap-4 w-full">
         {/* ── Left: identity & context ───────────────────────────── */}
         <div className="flex items-center gap-3 min-w-0">
           {/* Logo mark */}
           <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-white font-bold text-sm shrink-0"
+            className="w-9 h-9 rounded-lg flex items-center justify-center text-white font-bold text-[18px] shrink-0"
             style={{ backgroundColor: "#00B140" }}
           >
             K
@@ -54,11 +51,13 @@ export function PageHeader({
           <div className="min-w-0">
             {/* Title row */}
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-[13px] text-text-muted">KnapSack</span>
+              <span className="text-[18px] font-bold text-text-primary">
+                KnapSack
+              </span>
               {campaignName && (
                 <>
-                  <span className="text-border-default select-none">·</span>
-                  <span className="text-[16px] font-bold text-text-primary truncate">
+                  <span className="text-border-strong select-none">·</span>
+                  <span className="text-[18px] font-semibold text-text-primary truncate">
                     {campaignName}
                   </span>
                 </>
@@ -75,7 +74,7 @@ export function PageHeader({
 
             {/* Sub-label row */}
             {(subLabel || dateRange || budget != null) && (
-              <div className="flex items-center gap-2 text-[12px] text-text-muted mt-0.5 flex-wrap">
+              <div className="flex items-center gap-2 text-[13px] text-text-secondary mt-0.5 flex-wrap">
                 {subLabel && <span>{subLabel}</span>}
                 {dateRange && (
                   <>
