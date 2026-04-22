@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { adminAuth } from "@/lib/firebase-admin";
 import prisma from "@/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 type RouteParams = { params: { slug: string } };
 
 export async function GET(req: NextRequest, { params }: RouteParams) {

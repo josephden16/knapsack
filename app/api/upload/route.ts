@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { adminAuth } from "@/lib/firebase-admin";
 import prisma from "@/lib/prisma";
+
+export const dynamic = "force-dynamic";
 import * as XLSX from "xlsx";
 import { validateCampaignWorkbook } from "@/lib/parsers/validate";
 import { parseWorkbook } from "@/lib/parsers/parse";
