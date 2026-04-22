@@ -1,0 +1,96 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Brand */
+  --opay-green: #00b140;
+  --opay-green-dark: #008f33;
+  --opay-green-light: #e6f7ed;
+
+  /* Funnel accent */
+  --tof-color: #00b140;
+  --mof-color: #0066cc;
+  --bof-color: #f5a623;
+
+  /* Chart fills */
+  --chart-tof: #00b140;
+  --chart-mof: #0066cc;
+  --chart-bof: #f5a623;
+  --chart-tof-bg: #e6f7ed;
+  --chart-mof-bg: #e6f0fa;
+  --chart-bof-bg: #fef3dc;
+
+  /* Page & surface */
+  --page: #f4f6f8;
+  --surface: #ffffff;
+
+  /* Text */
+  --text-primary: #0d1117;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+
+  /* Borders */
+  --border-default: #e5e7eb;
+  --border-strong: #d1d5db;
+
+  /* Shadows */
+  --shadow-card: rgba(0, 71, 28, 0.08) 0px 2px 8px 0px;
+  --shadow-elevated:
+    rgba(0, 71, 28, 0.12) 0px 4px 16px 0px, rgba(0, 0, 0, 0.06) 0px 2px 4px 0px;
+  --shadow-header: rgba(0, 71, 28, 0.06) 0px 2px 4px 0px;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  background-color: var(--page);
+  color: var(--text-primary);
+  font-family:
+    "Inter",
+    "SF Pro Display",
+    -apple-system,
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Tabular numerals for data-heavy elements */
+.tnum {
+  font-feature-settings: "tnum";
+}
+
+/* KPI value sizes */
+.kpi-value-lg {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.5px;
+  font-feature-settings: "tnum";
+}
+
+.kpi-value {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.3px;
+  font-feature-settings: "tnum";
+}
+
+.kpi-label {
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
