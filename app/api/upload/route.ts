@@ -81,36 +81,21 @@ export async function POST(req: NextRequest) {
       budget: data.meta.budget,
       spend: data.meta.spend,
       roi: data.meta.roi,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      tofSummary: data.tofSummary as any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      tofTvc: data.tofTvc as any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      tofKol: data.tofKol as any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      tofKolPerformers: data.tofKolPerformers as any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      tofOrganic: data.tofOrganic as any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      tofPr: data.tofPr as any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      mofSummary: data.mofSummary as any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      mofMeta: data.mofMeta as any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      mofTiktok: data.mofTiktok as any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      mofX: data.mofX as any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      mofBranding: data.mofBranding as any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      bofSummary: data.bofSummary as any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      bofInapp: data.bofInapp as any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      bofLanding: data.bofLanding as any,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      bofDeeplinks: data.bofDeeplinks as any,
+      tofSummary: data.tofSummary as never[],
+      tofTvc: data.tofTvc as never[],
+      tofKol: data.tofKol as never[],
+      tofKolPerformers: data.tofKolPerformers as never[],
+      tofOrganic: data.tofOrganic as never[],
+      tofPr: data.tofPr as never[],
+      mofSummary: data.mofSummary as never[],
+      mofMeta: data.mofMeta as never[],
+      mofTiktok: data.mofTiktok as never[],
+      mofX: data.mofX as never[],
+      mofBranding: data.mofBranding as never[],
+      bofSummary: data.bofSummary as never[],
+      bofInapp: data.bofInapp as never[],
+      bofLanding: data.bofLanding as never[],
+      bofDeeplinks: data.bofDeeplinks as never[],
     },
   });
 
