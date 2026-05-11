@@ -6,17 +6,18 @@
 
 :root {
   /* Brand */
-  --opay-green: #00b140;
-  --opay-green-dark: #008f33;
+  --opay-green: #1dcf9f;
+  --opay-green-dark: #0be092;
+
   --opay-green-light: #e6f7ed;
 
   /* Funnel accent */
-  --tof-color: #00b140;
+  --tof-color: #1dcf9f;
   --mof-color: #0066cc;
   --bof-color: #f5a623;
 
   /* Chart fills */
-  --chart-tof: #00b140;
+  --chart-tof: #1dcf9f;
   --chart-mof: #0066cc;
   --chart-bof: #f5a623;
   --chart-tof-bg: #e6f7ed;

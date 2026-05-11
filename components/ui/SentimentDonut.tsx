@@ -9,7 +9,7 @@ interface SentimentDonutProps {
 }
 
 const COLORS = {
-  Positive: "#00B140",
+  Positive: "#1dcf9f",
   Neutral: "#D1D5DB",
   Negative: "#F87171",
 };

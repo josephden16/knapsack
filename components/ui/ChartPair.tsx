@@ -105,7 +105,7 @@ function RoundedTopBar(props: {
   height?: number;
   fill?: string;
 }) {
-  const { x = 0, y = 0, width = 0, height = 0, fill = "#00B140" } = props;
+  const { x = 0, y = 0, width = 0, height = 0, fill = "#1dcf9f" } = props;
   if (height <= 0) return null;
   const r = Math.min(4, height / 2);
 

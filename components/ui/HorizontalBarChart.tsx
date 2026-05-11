@@ -31,7 +31,7 @@ interface HorizontalBarChartProps {
 export function HorizontalBarChart({
   title,
   data,
-  color = "#00B140",
+  color = "#1dcf9f",
 }: HorizontalBarChartProps) {
   const chartHeight = Math.max(data.length * 48, 120);
 

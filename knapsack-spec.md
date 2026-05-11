@@ -1,4 +1,5 @@
 # KnapSack — Funnel-Based Campaign Reporting Platform
+
 ### Product Spec · OPay Marketing · v1.0
 
 ---
@@ -38,6 +39,7 @@
 KnapSack is a single-page web application that ingests uploaded campaign data files and renders a hierarchical, drill-down reporting dashboard for OPay's marketing campaigns. Reports are organized around a three-stage marketing funnel — Awareness (Top), Consideration (Middle), and Conversion (Bottom) — and broken down by channel within each stage.
 
 **Key constraints:**
+
 - Data is uploaded by the user (CSV/Excel), not pulled from a live database.
 - The UI follows the layout and structure of the design PDF mockups, re-skinned to OPay's green-and-white brand identity.
 - Two campaigns are shown in the mockup ("Extra Cover" and "Big Friday"), but the system must generalize to any number of campaigns.
@@ -47,17 +49,17 @@ KnapSack is a single-page web application that ingests uploaded campaign data fi
 
 ## 2. Tech Stack
 
-| Layer | Choice | Rationale |
-|---|---|---|
-| Framework | **Next.js 14 (App Router)** | Replaces Vite+React; gives us API routes, server components, and middleware in a single project — perfect for vibe coding a full-stack app fast |
-| Charts | Recharts | Simple API, good line + bar chart support |
-| Styling | Tailwind CSS | Utility-first; configure OPay green as a custom color in `tailwind.config.js` |
-| File parsing | SheetJS (XLSX) | Parses uploaded `.xlsx` files in API routes before persisting |
-| Authentication | **Firebase Auth** | Fastest possible setup — enable Google OAuth in the Firebase console, drop in the client SDK, done. No adapter, no session config, no extra models in the DB |
-| ORM | **Prisma** | Type-safe DB client, great MongoDB support, auto-generates types from schema |
-| Database | **MongoDB Atlas** | Document model suits embedded time-series campaign data; free tier is sufficient for MVP |
-| Server state | **SWR** | Lightweight data-fetching with caching and revalidation on the client |
-| Deployment | **Vercel** | Zero-config Next.js deployment; add Firebase + MongoDB env vars |
+| Layer          | Choice                      | Rationale                                                                                                                                                    |
+| -------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Framework      | **Next.js 14 (App Router)** | Replaces Vite+React; gives us API routes, server components, and middleware in a single project — perfect for vibe coding a full-stack app fast              |
+| Charts         | Recharts                    | Simple API, good line + bar chart support                                                                                                                    |
+| Styling        | Tailwind CSS                | Utility-first; configure OPay green as a custom color in `tailwind.config.js`                                                                                |
+| File parsing   | SheetJS (XLSX)              | Parses uploaded `.xlsx` files in API routes before persisting                                                                                                |
+| Authentication | **Firebase Auth**           | Fastest possible setup — enable Google OAuth in the Firebase console, drop in the client SDK, done. No adapter, no session config, no extra models in the DB |
+| ORM            | **Prisma**                  | Type-safe DB client, great MongoDB support, auto-generates types from schema                                                                                 |
+| Database       | **MongoDB Atlas**           | Document model suits embedded time-series campaign data; free tier is sufficient for MVP                                                                     |
+| Server state   | **SWR**                     | Lightweight data-fetching with caching and revalidation on the client                                                                                        |
+| Deployment     | **Vercel**                  | Zero-config Next.js deployment; add Firebase + MongoDB env vars                                                                                              |
 
 ### Project Structure
 
@@ -128,6 +130,7 @@ The app has four levels of depth. Every level shows a breadcrumb.
 Authentication is handled entirely by **Firebase Authentication** with **Google OAuth** as the sole sign-in method. This is the fastest possible setup — no session config, no adapter, no extra database models. The entire auth flow is handled by Firebase on the client; the backend only needs to verify the token.
 
 **Setup steps (one-time, ~5 minutes):**
+
 1. Create a Firebase project at [console.firebase.google.com](https://console.firebase.google.com).
 2. Go to **Authentication → Sign-in method** and enable **Google**.
 3. Copy the Firebase config object into env vars (see Section 9 Environment Variables).
@@ -136,23 +139,29 @@ Authentication is handled entirely by **Firebase Authentication** with **Google 
 **Client-side auth** (`lib/firebase.ts`):
 
 ```ts
-import { initializeApp } from "firebase/app"
-import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth"
+import { initializeApp } from "firebase/app";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
 
 const app = initializeApp({
-  apiKey:            process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-  authDomain:        process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  projectId:         process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-})
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+});
 
-export const auth     = getAuth(app)
-export const provider = new GoogleAuthProvider()
+export const auth = getAuth(app);
+export const provider = new GoogleAuthProvider();
 
-export const signInWithGoogle = () => signInWithPopup(auth, provider)
-export const signOutUser      = () => signOut(auth)
+export const signInWithGoogle = () => signInWithPopup(auth, provider);
+export const signOutUser = () => signOut(auth);
 ```
 
 **Sign-in flow:**
+
 1. User clicks "Sign in with Google" on `/login`.
 2. `signInWithGoogle()` opens the Google popup — user picks their account.
 3. Firebase returns a user object with `uid`, `email`, `displayName`, `photoURL`.
@@ -163,7 +172,7 @@ export const signOutUser      = () => signOut(auth)
 **Auth state in the app** — use Firebase's `onAuthStateChanged` in a top-level client component or context to reactively track the current user:
 
 ```ts
-import { onAuthStateChanged } from "firebase/auth"
+import { onAuthStateChanged } from "firebase/auth";
 
 onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -171,7 +180,7 @@ onAuthStateChanged(auth, (user) => {
   } else {
     // redirect to /login
   }
-})
+});
 ```
 
 ### 4.2 Protecting Routes
@@ -180,20 +189,20 @@ onAuthStateChanged(auth, (user) => {
 
 ```tsx
 // app/(dashboard)/layout.tsx  (client component)
-"use client"
-import { useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { auth } from "@/lib/firebase"
-import { onAuthStateChanged } from "firebase/auth"
+"use client";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { auth } from "@/lib/firebase";
+import { onAuthStateChanged } from "firebase/auth";
 
 export default function DashboardLayout({ children }) {
-  const router = useRouter()
+  const router = useRouter();
   useEffect(() => {
     return onAuthStateChanged(auth, (user) => {
-      if (!user) router.replace("/login")
-    })
-  }, [router])
-  return <>{children}</>
+      if (!user) router.replace("/login");
+    });
+  }, [router]);
+  return <>{children}</>;
 }
 ```
 
@@ -204,35 +213,36 @@ API routes verify the caller's identity using the **Firebase Admin SDK**, which 
 **Admin SDK init** (`lib/firebase-admin.ts`):
 
 ```ts
-import { initializeApp, getApps, cert } from "firebase-admin/app"
-import { getAuth } from "firebase-admin/auth"
+import { initializeApp, getApps, cert } from "firebase-admin/app";
+import { getAuth } from "firebase-admin/auth";
 
 if (!getApps().length) {
   initializeApp({
     credential: cert({
-      projectId:   process.env.FIREBASE_PROJECT_ID,
+      projectId: process.env.FIREBASE_PROJECT_ID,
       clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-      privateKey:  process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
     }),
-  })
+  });
 }
 
-export const adminAuth = getAuth()
+export const adminAuth = getAuth();
 ```
 
 **In every API route**, extract and verify the token before touching the database:
 
 ```ts
-const token = req.headers.get("Authorization")?.split("Bearer ")[1]
-if (!token) return Response.json({ error: "Unauthorised" }, { status: 401 })
+const token = req.headers.get("Authorization")?.split("Bearer ")[1];
+if (!token) return Response.json({ error: "Unauthorised" }, { status: 401 });
 
-const decoded = await adminAuth.verifyIdToken(token)
-const firebaseUid = decoded.uid   // use this to scope all DB queries
+const decoded = await adminAuth.verifyIdToken(token);
+const firebaseUid = decoded.uid; // use this to scope all DB queries
 ```
 
 The client retrieves the current ID token before each API call with:
+
 ```ts
-const token = await auth.currentUser?.getIdToken()
+const token = await auth.currentUser?.getIdToken();
 ```
 
 ### 4.4 Data Ownership
@@ -241,14 +251,15 @@ Every `Campaign` document in MongoDB stores a `firebaseUid` field (the Firebase 
 
 ### 4.5 API Routes
 
-| Method | Route | Description |
-|---|---|---|
-| `GET` | `/api/campaigns` | List all campaigns for the authenticated user |
-| `POST` | `/api/upload` | Parse uploaded `.xlsx`, validate, and persist a new campaign |
-| `GET` | `/api/campaigns/[slug]` | Fetch a single campaign's full data |
-| `DELETE` | `/api/campaigns/[slug]` | Delete a campaign (with ownership check) |
+| Method   | Route                   | Description                                                  |
+| -------- | ----------------------- | ------------------------------------------------------------ |
+| `GET`    | `/api/campaigns`        | List all campaigns for the authenticated user                |
+| `POST`   | `/api/upload`           | Parse uploaded `.xlsx`, validate, and persist a new campaign |
+| `GET`    | `/api/campaigns/[slug]` | Fetch a single campaign's full data                          |
+| `DELETE` | `/api/campaigns/[slug]` | Delete a campaign (with ownership check)                     |
 
 **Upload API (`/api/upload`) flow:**
+
 1. Receive `multipart/form-data` with the `.xlsx` file + `Authorization: Bearer {idToken}` header.
 2. Verify the Firebase ID token with Admin SDK → extract `firebaseUid`.
 3. Parse all sheets with SheetJS on the server.
@@ -339,203 +350,203 @@ Data is provided via uploaded files (one per campaign). The recommended format i
 
 ### 5.1 Campaign Metadata (Sheet: `campaign`)
 
-| Column | Type | Example |
-|---|---|---|
-| `name` | string | Extra Cover |
-| `slug` | string | extra-cover |
-| `status` | `active` \| `completed` | active |
-| `start_date` | YYYY-MM | 2025-01 |
-| `end_date` | YYYY-MM | 2025-06 |
-| `budget` | number | 1350000 |
-| `spend` | number | 1180000 |
-| `roi` | number | 3.8 |
+| Column       | Type                    | Example     |
+| ------------ | ----------------------- | ----------- |
+| `name`       | string                  | Extra Cover |
+| `slug`       | string                  | extra-cover |
+| `status`     | `active` \| `completed` | active      |
+| `start_date` | YYYY-MM                 | 2025-01     |
+| `end_date`   | YYYY-MM                 | 2025-06     |
+| `budget`     | number                  | 1350000     |
+| `spend`      | number                  | 1180000     |
+| `roi`        | number                  | 3.8         |
 
 ### 5.2 Top of Funnel — Summary KPIs (Sheet: `tof_summary`)
 
 One row per month.
 
-| Column | Type | Description |
-|---|---|---|
-| `month` | YYYY-MM | e.g. 2025-01 |
-| `reach` | number | e.g. 12400000 |
-| `grps` | number | e.g. 284 |
-| `brand_recall_pct` | number | e.g. 74 |
-| `sov_pct` | number | e.g. 42 |
-| `sentiment` | number | e.g. 82 (out of 100) |
-| `spend` | number | e.g. 620000 |
+| Column             | Type    | Description          |
+| ------------------ | ------- | -------------------- |
+| `month`            | YYYY-MM | e.g. 2025-01         |
+| `reach`            | number  | e.g. 12400000        |
+| `grps`             | number  | e.g. 284             |
+| `brand_recall_pct` | number  | e.g. 74              |
+| `sov_pct`          | number  | e.g. 42              |
+| `sentiment`        | number  | e.g. 82 (out of 100) |
+| `spend`            | number  | e.g. 620000          |
 
 ### 5.3 Top of Funnel — TVC / Broadcast (Sheet: `tof_tvc`)
 
 One row per month.
 
-| Column | Type | Description |
-|---|---|---|
-| `month` | YYYY-MM | |
-| `reach` | number | |
-| `grps` | number | |
-| `frequency` | number | |
-| `ad_recall_pct` | number | |
-| `spend` | number | |
-| `cpr` | number | Cost per reach |
-| `channel_ait_grp` | number | GRP for AIT |
-| `channel_channelstv_grp` | number | GRP for Channels TV |
-| `channel_nta_grp` | number | GRP for NTA |
-| `channel_stv_grp` | number | GRP for STV |
-| `channel_others_grp` | number | GRP for Others |
+| Column                   | Type    | Description         |
+| ------------------------ | ------- | ------------------- |
+| `month`                  | YYYY-MM |                     |
+| `reach`                  | number  |                     |
+| `grps`                   | number  |                     |
+| `frequency`              | number  |                     |
+| `ad_recall_pct`          | number  |                     |
+| `spend`                  | number  |                     |
+| `cpr`                    | number  | Cost per reach      |
+| `channel_ait_grp`        | number  | GRP for AIT         |
+| `channel_channelstv_grp` | number  | GRP for Channels TV |
+| `channel_nta_grp`        | number  | GRP for NTA         |
+| `channel_stv_grp`        | number  | GRP for STV         |
+| `channel_others_grp`     | number  | GRP for Others      |
 
 ### 5.4 Top of Funnel — KOL / Influencer (Sheet: `tof_kol`)
 
 **Monthly summary** (one row per month):
 
-| Column | Type | Description |
-|---|---|---|
-| `month` | YYYY-MM | |
-| `reach` | number | |
-| `engagement_pct` | number | |
-| `sentiment` | number | out of 100 |
-| `cost` | number | |
-| `top_kol` | string | e.g. Davido |
-| `roi` | number | |
-| `sentiment_positive_pct` | number | e.g. 68 |
-| `sentiment_neutral_pct` | number | e.g. 24 |
-| `sentiment_negative_pct` | number | e.g. 8 |
+| Column                   | Type    | Description |
+| ------------------------ | ------- | ----------- |
+| `month`                  | YYYY-MM |             |
+| `reach`                  | number  |             |
+| `engagement_pct`         | number  |             |
+| `sentiment`              | number  | out of 100  |
+| `cost`                   | number  |             |
+| `top_kol`                | string  | e.g. Davido |
+| `roi`                    | number  |             |
+| `sentiment_positive_pct` | number  | e.g. 68     |
+| `sentiment_neutral_pct`  | number  | e.g. 24     |
+| `sentiment_negative_pct` | number  | e.g. 8      |
 
 **KOL performance table** (Sheet: `tof_kol_performers`):
 
-| Column | Type | Description |
-|---|---|---|
-| `campaign_slug` | string | Links to campaign |
-| `kol_name` | string | e.g. Davido |
-| `reach` | number | |
-| `engagement_pct` | number | |
-| `cost` | number | |
-| `roi` | number | |
+| Column           | Type   | Description       |
+| ---------------- | ------ | ----------------- |
+| `campaign_slug`  | string | Links to campaign |
+| `kol_name`       | string | e.g. Davido       |
+| `reach`          | number |                   |
+| `engagement_pct` | number |                   |
+| `cost`           | number |                   |
+| `roi`            | number |                   |
 
 ### 5.5 Top of Funnel — Organic Social (Sheet: `tof_organic`)
 
 One row per month.
 
-| Column | Type | Description |
-|---|---|---|
-| `month` | YYYY-MM | |
-| `impressions` | number | |
-| `likes` | number | |
-| `comments` | number | |
-| `shares` | number | |
-| `engagement_rate_pct` | number | |
-| `top_post` | string | e.g. Cashback |
+| Column                | Type    | Description   |
+| --------------------- | ------- | ------------- |
+| `month`               | YYYY-MM |               |
+| `impressions`         | number  |               |
+| `likes`               | number  |               |
+| `comments`            | number  |               |
+| `shares`              | number  |               |
+| `engagement_rate_pct` | number  |               |
+| `top_post`            | string  | e.g. Cashback |
 
 ### 5.6 Top of Funnel — PR / Media (Sheet: `tof_pr`)
 
 One row per month.
 
-| Column | Type | Description |
-|---|---|---|
-| `month` | YYYY-MM | |
-| `mentions` | number | |
-| `earned_pct` | number | |
-| `paid_pct` | number | |
-| `sov_pct` | number | |
-| `top_outlet` | string | e.g. TechCabal |
-| `tone` | string | e.g. Positive |
+| Column       | Type    | Description    |
+| ------------ | ------- | -------------- |
+| `month`      | YYYY-MM |                |
+| `mentions`   | number  |                |
+| `earned_pct` | number  |                |
+| `paid_pct`   | number  |                |
+| `sov_pct`    | number  |                |
+| `top_outlet` | string  | e.g. TechCabal |
+| `tone`       | string  | e.g. Positive  |
 
 ### 5.7 Middle of Funnel — Summary KPIs (Sheet: `mof_summary`)
 
 One row per month.
 
-| Column | Type | Description |
-|---|---|---|
-| `month` | YYYY-MM | |
-| `clicks` | number | |
-| `avg_ctr_pct` | number | |
-| `avg_cpc` | number | |
-| `avg_roas` | number | |
-| `spend` | number | |
-| `top_channel` | string | e.g. TikTok |
+| Column        | Type    | Description |
+| ------------- | ------- | ----------- |
+| `month`       | YYYY-MM |             |
+| `clicks`      | number  |             |
+| `avg_ctr_pct` | number  |             |
+| `avg_cpc`     | number  |             |
+| `avg_roas`    | number  |             |
+| `spend`       | number  |             |
+| `top_channel` | string  | e.g. TikTok |
 
 ### 5.8 Middle of Funnel — Paid Social Channels (Sheets: `mof_meta`, `mof_tiktok`, `mof_x`)
 
 All three sheets share the same schema (one row per month):
 
-| Column | Type | Description |
-|---|---|---|
-| `month` | YYYY-MM | |
-| `clicks` | number | |
-| `ctr_pct` | number | |
-| `cpc` | number | |
-| `cpm` | number | |
-| `vtr_pct` | number | View-through rate |
-| `roas` | number | |
+| Column    | Type    | Description       |
+| --------- | ------- | ----------------- |
+| `month`   | YYYY-MM |                   |
+| `clicks`  | number  |                   |
+| `ctr_pct` | number  |                   |
+| `cpc`     | number  |                   |
+| `cpm`     | number  |                   |
+| `vtr_pct` | number  | View-through rate |
+| `roas`    | number  |                   |
 
 ### 5.9 Middle of Funnel — Branding / Perf. Ads (Sheet: `mof_branding`)
 
 One row per month.
 
-| Column | Type | Description |
-|---|---|---|
-| `month` | YYYY-MM | |
-| `impressions` | number | |
-| `ctr_pct` | number | |
-| `cpm` | number | |
-| `vtr_pct` | number | |
-| `roas` | number | |
-| `spend` | number | |
+| Column        | Type    | Description |
+| ------------- | ------- | ----------- |
+| `month`       | YYYY-MM |             |
+| `impressions` | number  |             |
+| `ctr_pct`     | number  |             |
+| `cpm`         | number  |             |
+| `vtr_pct`     | number  |             |
+| `roas`        | number  |             |
+| `spend`       | number  |             |
 
 ### 5.10 Bottom of Funnel — Summary KPIs (Sheet: `bof_summary`)
 
 One row per month.
 
-| Column | Type | Description |
-|---|---|---|
-| `month` | YYYY-MM | |
-| `sign_ups` | number | |
-| `installs` | number | |
-| `drop_off_pct` | number | |
-| `cpa` | number | |
-| `conv_rate_pct` | number | |
-| `spend` | number | |
+| Column          | Type    | Description |
+| --------------- | ------- | ----------- |
+| `month`         | YYYY-MM |             |
+| `sign_ups`      | number  |             |
+| `installs`      | number  |             |
+| `drop_off_pct`  | number  |             |
+| `cpa`           | number  |             |
+| `conv_rate_pct` | number  |             |
+| `spend`         | number  |             |
 
 ### 5.11 Bottom of Funnel — In-App Pages (Sheet: `bof_inapp`)
 
 One row per month.
 
-| Column | Type | Description |
-|---|---|---|
-| `month` | YYYY-MM | |
-| `page_views` | number | |
-| `sign_ups` | number | |
-| `drop_off_pct` | number | |
-| `bounce_pct` | number | |
-| `conv_rate_pct` | number | |
-| `avg_time_seconds` | number | e.g. 134 for "2m 14s" |
+| Column             | Type    | Description           |
+| ------------------ | ------- | --------------------- |
+| `month`            | YYYY-MM |                       |
+| `page_views`       | number  |                       |
+| `sign_ups`         | number  |                       |
+| `drop_off_pct`     | number  |                       |
+| `bounce_pct`       | number  |                       |
+| `conv_rate_pct`    | number  |                       |
+| `avg_time_seconds` | number  | e.g. 134 for "2m 14s" |
 
 ### 5.12 Bottom of Funnel — Landing Pages (Sheet: `bof_landing`)
 
 One row per month.
 
-| Column | Type | Description |
-|---|---|---|
-| `month` | YYYY-MM | |
-| `clicks` | number | |
-| `conversions` | number | |
-| `bounce_pct` | number | |
-| `cto_pct` | number | Click-to-open rate |
-| `conv_rate_pct` | number | |
-| `top_page` | string | e.g. /promo |
+| Column          | Type    | Description        |
+| --------------- | ------- | ------------------ |
+| `month`         | YYYY-MM |                    |
+| `clicks`        | number  |                    |
+| `conversions`   | number  |                    |
+| `bounce_pct`    | number  |                    |
+| `cto_pct`       | number  | Click-to-open rate |
+| `conv_rate_pct` | number  |                    |
+| `top_page`      | string  | e.g. /promo        |
 
 ### 5.13 Bottom of Funnel — Deep Links (Sheet: `bof_deeplinks`)
 
 One row per month.
 
-| Column | Type | Description |
-|---|---|---|
-| `month` | YYYY-MM | |
-| `clicks` | number | |
-| `installs` | number | |
-| `cto_pct` | number | |
-| `app_opens` | number | |
-| `conv_rate_pct` | number | |
-| `top_link` | string | e.g. opay:// |
+| Column          | Type    | Description  |
+| --------------- | ------- | ------------ |
+| `month`         | YYYY-MM |              |
+| `clicks`        | number  |              |
+| `installs`      | number  |              |
+| `cto_pct`       | number  |              |
+| `app_opens`     | number  |              |
+| `conv_rate_pct` | number  |              |
+| `top_link`      | string  | e.g. opay:// |
 
 ### 5.14 Quarterly Aggregation Logic
 
@@ -558,12 +569,14 @@ Quarter assignment: Jan–Mar = Q1, Apr–Jun = Q2, Jul–Sep = Q3, Oct–Dec = 
 **Route:** `/`
 
 **Layout:**
+
 - Centered KnapSack logo (green rounded square with "K") + title "KnapSack"
 - Subtitle: "Funnel-Based Campaign Reporting Platform · OPay"
 - Instruction text: "Select a campaign to view its full reporting dashboard"
 - Campaign cards in a 2-column responsive grid
 
 **Campaign Card:**
+
 ```
 ┌─────────────────────────────────────────────────┐
 │  {Campaign Name}                 [{Status Pill}] │
@@ -575,9 +588,9 @@ Quarter assignment: Jan–Mar = Q1, Apr–Jun = Q2, Jul–Sep = Q3, Oct–Dec = 
 └─────────────────────────────────────────────────┘
 ```
 
-- Active campaign: `border-left: 4px solid #00B140` (OPay green)
+- Active campaign: `border-left: 4px solid #1dcf9f` (OPay green)
 - Completed campaign: `border-left: 4px solid #0066CC` (blue)
-- Status pill Active: `background: #E6F7ED`, `color: #00B140`, `border-radius: 999px`
+- Status pill Active: `background: #E6F7ED`, `color: #1dcf9f`, `border-radius: 999px`
 - Status pill Completed: `background: #EFF6FF`, `color: #0066CC`, `border-radius: 999px`
 - "Open →" is a link to `/:campaignSlug`
 - Footer: "KnapSack — Campaign Reporting Platform · OPay Marketing"
@@ -591,28 +604,34 @@ Quarter assignment: Jan–Mar = Q1, Apr–Jun = Q2, Jul–Sep = Q3, Oct–Dec = 
 **Route:** `/:campaignSlug`
 
 **Header:**
+
 - Left: `[ K ]  KnapSack · {Campaign Name}` / `Campaign Overview | {Date Range} | Budget: ${budget}`
 - Right: `[Monthly] [Quarterly]` toggle
 
 **Three funnel-stage sections, stacked vertically:**
 
 #### Top of Funnel — Awareness
+
 - Banner bar in **amber/orange** background, full width, label: `Top of Funnel — Awareness`, right side: `Drill in →` (links to `/:campaignSlug/top-of-funnel`)
 - KPI strip (6 cards): REACH, GRPS, BRAND RECALL, SOV, SENTIMENT, SPEND
 
 #### Middle of Funnel — Consideration
+
 - Banner bar in **neon green** background: `Middle of Funnel — Consideration` + `Drill in →`
 - KPI strip (6 cards): CLICKS, AVG CTR, AVG CPC, AVG ROAS, SPEND, TOP
 
 #### Bottom of Funnel — Conversion
+
 - Banner bar in **dark orange** background: `Bottom of Funnel — Conversion` + `Drill in →`
 - KPI strip (6 cards): SIGN-UPS, INSTALLS, DROP-OFF, CPA, CONV RATE, SPEND
 
 **KPI card format:**
+
 ```
 LABEL (small caps, muted)
 {Value} (large, white, bold)
 ```
+
 Each card is white with `--shadow-card` and a `3px` colored left border matching its funnel color (`--tof-color`, `--mof-color`, or `--bof-color`). KPI values are `#0D1117`; labels are `#4B5563`.
 
 ---
@@ -627,13 +646,14 @@ Each card is white with `--shadow-card` and a `3px` colored left border matching
 
 **4-column channel card grid:**
 
-| Card | TVC / Broadcast | KOL / Influencer | Organic Social | PR / Media |
-|---|---|---|---|---|
-| Header | "TVC / Broadcast" | "KOL / Influencer" | "Organic Social" | "PR / Media" |
-| Link | `…/tvc` | `…/kol` | `…/organic` | `…/pr` |
+| Card        | TVC / Broadcast                               | KOL / Influencer                                 | Organic Social                                            | PR / Media                                      |
+| ----------- | --------------------------------------------- | ------------------------------------------------ | --------------------------------------------------------- | ----------------------------------------------- |
+| Header      | "TVC / Broadcast"                             | "KOL / Influencer"                               | "Organic Social"                                          | "PR / Media"                                    |
+| Link        | `…/tvc`                                       | `…/kol`                                          | `…/organic`                                               | `…/pr`                                          |
 | Metric rows | Reach, GRPs, Frequency, Ad Recall, Spend, CPR | Reach, Engagement, Sentiment, Cost, Top KOL, ROI | Impressions, Likes, Comments, Shares, Eng. Rate, Top Post | Mentions, Earned%, Paid%, SOV, Top Outlet, Tone |
 
 Each channel card has:
+
 - Title + "Drill in →" link at top
 - Metric label (small, muted) + value (white, semi-bold) rows
 - Top border in amber
@@ -650,9 +670,9 @@ Each channel card has:
 
 **4-column channel card grid:**
 
-| Card | Meta Ads | TikTok Ads | X Ads | Branding / Perf. Ads |
-|---|---|---|---|---|
-| Link | `…/meta` | `…/tiktok` | `…/x-ads` | `…/branding` |
+| Card        | Meta Ads                         | TikTok Ads                       | X Ads                            | Branding / Perf. Ads                    |
+| ----------- | -------------------------------- | -------------------------------- | -------------------------------- | --------------------------------------- |
+| Link        | `…/meta`                         | `…/tiktok`                       | `…/x-ads`                        | `…/branding`                            |
 | Metric rows | Clicks, CTR, CPC, CPM, VTR, ROAS | Clicks, CTR, CPC, CPM, VTR, ROAS | Clicks, CTR, CPC, CPM, VTR, ROAS | Impressions, CTR, CPM, VTR, ROAS, Spend |
 
 Top border: neon green.
@@ -669,9 +689,9 @@ Top border: neon green.
 
 **3-column channel card grid:**
 
-| Card | In-App Pages | Landing Pages | Deep Links |
-|---|---|---|---|
-| Link | `…/in-app` | `…/landing` | `…/deep-links` |
+| Card        | In-App Pages                                                | Landing Pages                                         | Deep Links                                            |
+| ----------- | ----------------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
+| Link        | `…/in-app`                                                  | `…/landing`                                           | `…/deep-links`                                        |
 | Metric rows | Page Views, Sign-ups, Drop-off, Bounce, Conv Rate, Avg Time | Clicks, Conversions, Bounce, CTO, Conv Rate, Top Page | Clicks, Installs, CTO, App Opens, Conv Rate, Top Link |
 
 Top border: dark orange.
@@ -688,14 +708,15 @@ Top border: dark orange.
 
 **Charts (2 per row, left = monthly line, right = quarterly bar, color = `--chart-tof`):**
 
-| Row | Left Chart | Right Chart |
-|---|---|---|
-| T1 | Reach (K) · Monthly | Reach (K) · Quarterly |
-| T2 | GRPs · Monthly | GRPs · Quarterly |
-| T3 | Frequency · Monthly | Frequency · Quarterly |
-| T4 | Ad Recall (%) · Monthly | Ad Recall (%) · Quarterly |
+| Row | Left Chart              | Right Chart               |
+| --- | ----------------------- | ------------------------- |
+| T1  | Reach (K) · Monthly     | Reach (K) · Quarterly     |
+| T2  | GRPs · Monthly          | GRPs · Quarterly          |
+| T3  | Frequency · Monthly     | Frequency · Quarterly     |
+| T4  | Ad Recall (%) · Monthly | Ad Recall (%) · Quarterly |
 
 **Additional chart (below, left-aligned, ~45% width):**
+
 - `GRP by Broadcast Channel` — horizontal bar chart
 - Bars: AIT, Channels TV, NTA, STV, Others
 - Color: `--chart-tof`
@@ -713,20 +734,22 @@ Top border: dark orange.
 
 **Charts (2 per row, color = `--chart-tof`):**
 
-| Row | Left Chart | Right Chart |
-|---|---|---|
-| T1 | Reach (K) · Monthly | Reach (K) · Quarterly |
-| T2 | Engagement (%) · Monthly | Engagement (%) · Quarterly |
-| T3 | Sentiment · Monthly | Sentiment · Quarterly |
+| Row | Left Chart               | Right Chart                |
+| --- | ------------------------ | -------------------------- |
+| T1  | Reach (K) · Monthly      | Reach (K) · Quarterly      |
+| T2  | Engagement (%) · Monthly | Engagement (%) · Quarterly |
+| T3  | Sentiment · Monthly      | Sentiment · Quarterly      |
 
 **Additional components (below charts):**
 
 **Sentiment Split donut chart** (~30% width):
+
 - Three segments: Positive (green), Neutral (gray), Negative (red/salmon)
 - Percentage labels on each segment
 - Legend: Positive, Neutral, Negative
 
 **KOL Performance table** (~50% width, placed to the right of or below donut):
+
 ```
 KOL Performance
 ───────────────────────────────────
@@ -734,6 +757,7 @@ KOL          REACH    ENG.   COST   ROI
 {kol_name}   {reach}  {eng%} {cost} {roi}x
 ...
 ```
+
 - Alternating row background for readability
 - Header row in muted text
 
@@ -749,11 +773,11 @@ KOL          REACH    ENG.   COST   ROI
 
 **Charts (2 per row, color = `--chart-tof`):**
 
-| Row | Left Chart | Right Chart |
-|---|---|---|
-| T1 | Impressions (K) · Monthly | Impressions (K) · Quarterly |
-| T2 | Likes (K) · Monthly | Likes (K) · Quarterly |
-| T3 | Shares (K) · Monthly | Shares (K) · Quarterly |
+| Row | Left Chart                | Right Chart                 |
+| --- | ------------------------- | --------------------------- |
+| T1  | Impressions (K) · Monthly | Impressions (K) · Quarterly |
+| T2  | Likes (K) · Monthly       | Likes (K) · Quarterly       |
+| T3  | Shares (K) · Monthly      | Shares (K) · Quarterly      |
 
 ---
 
@@ -767,11 +791,11 @@ KOL          REACH    ENG.   COST   ROI
 
 **Charts (2 per row, color = `--chart-tof`):**
 
-| Row | Left Chart | Right Chart |
-|---|---|---|
-| T1 | Mentions · Monthly | Mentions · Quarterly |
-| T2 | Earned (%) · Monthly | Earned (%) · Quarterly |
-| T3 | SOV (%) · Monthly | SOV (%) · Quarterly |
+| Row | Left Chart           | Right Chart            |
+| --- | -------------------- | ---------------------- |
+| T1  | Mentions · Monthly   | Mentions · Quarterly   |
+| T2  | Earned (%) · Monthly | Earned (%) · Quarterly |
+| T3  | SOV (%) · Monthly    | SOV (%) · Quarterly    |
 
 ---
 
@@ -785,12 +809,12 @@ KOL          REACH    ENG.   COST   ROI
 
 **Charts (2 per row, color = `--chart-mof`):**
 
-| Row | Left Chart | Right Chart |
-|---|---|---|
-| T1 | Clicks (K) · Monthly | Clicks (K) · Quarterly |
-| T2 | CTR (%) · Monthly | CTR (%) · Quarterly |
-| T3 | CPC ($) · Monthly | CPC ($) · Quarterly |
-| T4 | ROAS (x) · Monthly | ROAS (x) · Quarterly |
+| Row | Left Chart           | Right Chart            |
+| --- | -------------------- | ---------------------- |
+| T1  | Clicks (K) · Monthly | Clicks (K) · Quarterly |
+| T2  | CTR (%) · Monthly    | CTR (%) · Quarterly    |
+| T3  | CPC ($) · Monthly    | CPC ($) · Quarterly    |
+| T4  | ROAS (x) · Monthly   | ROAS (x) · Quarterly   |
 
 ---
 
@@ -828,11 +852,11 @@ KOL          REACH    ENG.   COST   ROI
 
 **Charts (2 per row, color = `--chart-mof`):**
 
-| Row | Left Chart | Right Chart |
-|---|---|---|
-| T1 | Impressions (K) · Monthly | Impressions (K) · Quarterly |
-| T2 | CTR (%) · Monthly | CTR (%) · Quarterly |
-| T3 | ROAS (x) · Monthly | ROAS (x) · Quarterly |
+| Row | Left Chart                | Right Chart                 |
+| --- | ------------------------- | --------------------------- |
+| T1  | Impressions (K) · Monthly | Impressions (K) · Quarterly |
+| T2  | CTR (%) · Monthly         | CTR (%) · Quarterly         |
+| T3  | ROAS (x) · Monthly        | ROAS (x) · Quarterly        |
 
 ---
 
@@ -848,12 +872,12 @@ KOL          REACH    ENG.   COST   ROI
 
 **Charts (2 per row, color = `--chart-bof`):**
 
-| Row | Left Chart | Right Chart |
-|---|---|---|
-| T1 | Page Views (K) · Monthly | Page Views (K) · Quarterly |
-| T2 | Sign-ups · Monthly | Sign-ups · Quarterly |
-| T3 | Drop-off (%) · Monthly | Drop-off (%) · Quarterly |
-| T4 | Bounce Rate (%) · Monthly | Bounce Rate (%) · Quarterly |
+| Row | Left Chart                | Right Chart                 |
+| --- | ------------------------- | --------------------------- |
+| T1  | Page Views (K) · Monthly  | Page Views (K) · Quarterly  |
+| T2  | Sign-ups · Monthly        | Sign-ups · Quarterly        |
+| T3  | Drop-off (%) · Monthly    | Drop-off (%) · Quarterly    |
+| T4  | Bounce Rate (%) · Monthly | Bounce Rate (%) · Quarterly |
 
 > Drop-off and Bounce Rate lines trend **downward** — this is intentional (lower is better).
 
@@ -869,11 +893,11 @@ KOL          REACH    ENG.   COST   ROI
 
 **Charts (2 per row, color = `--chart-bof`):**
 
-| Row | Left Chart | Right Chart |
-|---|---|---|
-| T1 | Clicks (K) · Monthly | Clicks (K) · Quarterly |
-| T2 | Conversions · Monthly | Conversions · Quarterly |
-| T3 | Bounce Rate (%) · Monthly | Bounce Rate (%) · Quarterly |
+| Row | Left Chart                | Right Chart                 |
+| --- | ------------------------- | --------------------------- |
+| T1  | Clicks (K) · Monthly      | Clicks (K) · Quarterly      |
+| T2  | Conversions · Monthly     | Conversions · Quarterly     |
+| T3  | Bounce Rate (%) · Monthly | Bounce Rate (%) · Quarterly |
 
 ---
 
@@ -887,20 +911,22 @@ KOL          REACH    ENG.   COST   ROI
 
 **Charts (2 per row, color = `--chart-bof`):**
 
-| Row | Left Chart | Right Chart |
-|---|---|---|
-| T1 | Clicks (K) · Monthly | Clicks (K) · Quarterly |
-| T2 | Installs · Monthly | Installs · Quarterly |
-| T3 | CTO (%) · Monthly | CTO (%) · Quarterly |
+| Row | Left Chart           | Right Chart            |
+| --- | -------------------- | ---------------------- |
+| T1  | Clicks (K) · Monthly | Clicks (K) · Quarterly |
+| T2  | Installs · Monthly   | Installs · Quarterly   |
+| T3  | CTO (%) · Monthly    | CTO (%) · Quarterly    |
 
 ---
 
 ## 7. Shared Components
 
 ### 7.1 `<KpiStrip metrics={[]} funnelColor="" />`
+
 Renders the 6-card row. Each card receives `{ label, value, format }`. `format` is one of: `number`, `currency`, `percent`, `multiplier`, `text`.
 
 **Value formatting rules:**
+
 - `number`: abbreviate with K/M suffix (e.g. 12400000 → "12.4M", 243000 → "243K")
 - `currency`: same abbreviation but prefix `$` (e.g. 620000 → "$620K")
 - `percent`: append `%` (e.g. 74 → "74%")
@@ -909,9 +935,11 @@ Renders the 6-card row. Each card receives `{ label, value, format }`. `format` 
 - `text`: render as-is (e.g. "TikTok", "Positive")
 
 ### 7.2 `<ChartPair metric="" monthlyData={[]} quarterlyData={[]} color="" unit="" />`
+
 Renders the standard two-chart row: left is a Recharts `AreaChart` or `LineChart` (monthly), right is a `BarChart` (quarterly). Both show a labeled value on the rightmost/topmost data point.
 
 **Line chart specs:**
+
 - Smooth curve (`type="monotone"`)
 - Chart background: white (`#FFFFFF`)
 - Stroke: funnel accent color (`--chart-tof`, `--chart-mof`, or `--chart-bof`), `strokeWidth: 2`
@@ -922,6 +950,7 @@ Renders the standard two-chart row: left is a Recharts `AreaChart` or `LineChart
 - Y-axis: abbreviated numbers, `color: #9CA3AF`
 
 **Bar chart specs:**
+
 - Chart background: white (`#FFFFFF`)
 - Single bar per quarter, full-width relative to chart area
 - Bar fill: solid funnel accent color, no gradient
@@ -931,24 +960,31 @@ Renders the standard two-chart row: left is a Recharts `AreaChart` or `LineChart
 - Bar corner radius: `border-radius: 4px` (top corners only)
 
 ### 7.3 `<ChannelCard title="" metrics={[]} drillPath="" funnelColor="" />`
+
 The summary card used on channel overview pages. Renders title + "Drill in →" link + metric rows.
 
 ### 7.4 `<FunnelBanner label="" stageName="" drillPath="" color="" />`
+
 The full-width banner row on the Campaign Overview page. Background = funnel accent color (OPay green, blue, or amber). Text and "Drill in →" link are white. `border-radius: 8px`.
 
 ### 7.5 `<Breadcrumb segments={[]} />`
+
 Renders the "Campaigns › X › Y › Z" trail. Each segment except the last is a clickable link.
 
 ### 7.6 `<PageHeader campaignName="" subLabel="" dateRange="" budget="" />`
+
 Consistent top header across all inner pages.
 
 ### 7.7 `<SentimentDonut positive={} neutral={} negative={} />`
+
 Recharts `PieChart` with three segments. Colors: green for positive, gray for neutral, salmon/red for negative. Labels float outside segments.
 
 ### 7.8 `<KolTable rows={[]} />`
+
 Renders the KOL performance table: KOL | Reach | Eng. | Cost | ROI.
 
 ### 7.9 `<HorizontalBarChart title="" data={[{label, value}]} color="" />`
+
 Used for "GRP by Broadcast Channel". Recharts `BarChart` with `layout="vertical"`, value labels at end of bars.
 
 ---
@@ -984,6 +1020,7 @@ A "Download Template" link on the upload modal delivers a pre-built `.xlsx` file
 ### 8.4 Campaign Management
 
 From the Home page, each campaign card has a **⋯ menu** with:
+
 - **View** — opens the campaign dashboard
 - **Delete** — calls `DELETE /api/campaigns/[slug]` with a confirmation prompt; removes the MongoDB document
 
@@ -993,23 +1030,23 @@ From the Home page, each campaign card has a **⋯ menu** with:
 
 ### Phase 1 — Backend, Auth & Foundation
 
-| Task | To-do |
-|---|---|
-| T1 | Scaffold Next.js 14 (App Router) + Tailwind + SWR. Set up folder structure. Configure `tailwind.config.js` with OPay green. Add `MONGODB_URL`, `NEXTAUTH_SECRET`, `GOOGLE_CLIENT_ID/SECRET` to `.env.local`. |
-| T2 | Set up Prisma with MongoDB provider. Write `schema.prisma` (all models from Section 4.4). Run `prisma generate`. Create `lib/prisma.ts` singleton. |
-| T3 | Set up Firebase project (5 min): enable Google OAuth, copy config to `.env.local`, download Admin SDK service account key. Build `lib/firebase.ts` (client) and `lib/firebase-admin.ts` (server). Build `/login` page with "Sign in with Google" button. Add auth guard to `/(dashboard)/layout.tsx`. Smoke-test sign-in end-to-end. |
-| T4 | Build `/api/upload` route: SheetJS parsing, all validation rules, Prisma write. Build `/api/campaigns` (GET list) and `/api/campaigns/[slug]` (GET single, DELETE). Test with a real `.xlsx` file. |
-| T5 | Build design system components: `KpiStrip`, `ChannelCard`, `FunnelBanner`, `Breadcrumb`, `PageHeader`. Build `ChartPair` and `HorizontalBarChart` with Recharts + OPay color scheme. Connect to mock data. |
+| Task | To-do                                                                                                                                                                                                                                                                                                                                |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| T1   | Scaffold Next.js 14 (App Router) + Tailwind + SWR. Set up folder structure. Configure `tailwind.config.js` with OPay green. Add `MONGODB_URL`, `NEXTAUTH_SECRET`, `GOOGLE_CLIENT_ID/SECRET` to `.env.local`.                                                                                                                         |
+| T2   | Set up Prisma with MongoDB provider. Write `schema.prisma` (all models from Section 4.4). Run `prisma generate`. Create `lib/prisma.ts` singleton.                                                                                                                                                                                   |
+| T3   | Set up Firebase project (5 min): enable Google OAuth, copy config to `.env.local`, download Admin SDK service account key. Build `lib/firebase.ts` (client) and `lib/firebase-admin.ts` (server). Build `/login` page with "Sign in with Google" button. Add auth guard to `/(dashboard)/layout.tsx`. Smoke-test sign-in end-to-end. |
+| T4   | Build `/api/upload` route: SheetJS parsing, all validation rules, Prisma write. Build `/api/campaigns` (GET list) and `/api/campaigns/[slug]` (GET single, DELETE). Test with a real `.xlsx` file.                                                                                                                                   |
+| T5   | Build design system components: `KpiStrip`, `ChannelCard`, `FunnelBanner`, `Breadcrumb`, `PageHeader`. Build `ChartPair` and `HorizontalBarChart` with Recharts + OPay color scheme. Connect to mock data.                                                                                                                           |
 
 ### Phase 2 — All Dashboard Screens
 
-| Task | To-do |
-|---|---|
-| T6 | Home page: fetch campaigns via SWR (`/api/campaigns`), campaign cards, upload modal (drag-and-drop → POST → redirect), delete menu, empty state, template download link. |
-| T7 | Campaign Overview page (all 3 funnel banners + KPI strips, live data from `/api/campaigns/[slug]`). |
-| T8 | ToF Channel Overview + TVC Detail + KOL Detail (sentiment donut + KOL table). |
-| T9 | Organic Social Detail + PR/Media Detail + MoF Channel Overview + Meta Ads Detail. |
-| T10 | TikTok Ads + X Ads + Branding Detail + all BoF screens (Channel Overview, In-App, Landing Pages, Deep Links). Final polish, test with both campaign datasets, fix edge cases. |
+| Task | To-do                                                                                                                                                                         |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| T6   | Home page: fetch campaigns via SWR (`/api/campaigns`), campaign cards, upload modal (drag-and-drop → POST → redirect), delete menu, empty state, template download link.      |
+| T7   | Campaign Overview page (all 3 funnel banners + KPI strips, live data from `/api/campaigns/[slug]`).                                                                           |
+| T8   | ToF Channel Overview + TVC Detail + KOL Detail (sentiment donut + KOL table).                                                                                                 |
+| T9   | Organic Social Detail + PR/Media Detail + MoF Channel Overview + Meta Ads Detail.                                                                                             |
+| T10  | TikTok Ads + X Ads + Branding Detail + all BoF screens (Channel Overview, In-App, Landing Pages, Deep Links). Final polish, test with both campaign datasets, fix edge cases. |
 
 ### Definition of Done (per screen)
 
@@ -1044,4 +1081,4 @@ FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n...\n-----END PRIVATE KEY----
 
 ---
 
-*KnapSack Spec v1.3 — OPay Marketing · April 2026*
+_KnapSack Spec v1.3 — OPay Marketing · April 2026_

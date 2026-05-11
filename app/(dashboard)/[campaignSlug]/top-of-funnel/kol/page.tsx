@@ -99,7 +99,7 @@ function LoadingScreen() {
       <div className="flex flex-col items-center gap-3">
         <div
           className="w-10 h-10 rounded-xl flex items-center justify-center"
-          style={{ backgroundColor: "#00B140" }}
+          style={{ backgroundColor: "#1dcf9f" }}
         >
           <span className="text-white font-bold text-lg">K</span>
         </div>
@@ -111,7 +111,7 @@ function LoadingScreen() {
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const TOF_GREEN = "#00B140";
+const TOF_GREEN = "#1dcf9f";
 const TOF_FILL = "#E6F7ED";
 
 // ─── Page ─────────────────────────────────────────────────────────────────────

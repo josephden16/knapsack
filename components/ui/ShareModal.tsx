@@ -119,26 +119,26 @@ export function ShareModal({
                 cx="15"
                 cy="5"
                 r="2.5"
-                stroke="#00B140"
+                stroke="#1dcf9f"
                 strokeWidth="1.5"
               />
               <circle
                 cx="5"
                 cy="10"
                 r="2.5"
-                stroke="#00B140"
+                stroke="#1dcf9f"
                 strokeWidth="1.5"
               />
               <circle
                 cx="15"
                 cy="15"
                 r="2.5"
-                stroke="#00B140"
+                stroke="#1dcf9f"
                 strokeWidth="1.5"
               />
               <path
                 d="M7.5 8.75L12.5 6.25M7.5 11.25L12.5 13.75"
-                stroke="#00B140"
+                stroke="#1dcf9f"
                 strokeWidth="1.5"
                 strokeLinecap="round"
               />
@@ -179,12 +179,12 @@ export function ShareModal({
               onClick={generateLink}
               disabled={loading}
               className="w-full flex items-center justify-center gap-2 py-3 rounded-lg text-[14px] font-semibold text-white transition-colors disabled:opacity-60"
-              style={{ backgroundColor: "#00B140" }}
+              style={{ backgroundColor: "#1dcf9f" }}
               onMouseEnter={(e) => {
-                if (!loading) e.currentTarget.style.backgroundColor = "#008F33";
+                if (!loading) e.currentTarget.style.backgroundColor = "#0be092";
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = "#00B140";
+                e.currentTarget.style.backgroundColor = "#1dcf9f";
               }}
             >
               {loading ? (
@@ -248,8 +248,8 @@ export function ShareModal({
                 onClick={copyToClipboard}
                 className="shrink-0 px-3 py-1.5 rounded-md text-[12px] font-semibold transition-all"
                 style={{
-                  backgroundColor: copied ? "#E6F7ED" : "#00B140",
-                  color: copied ? "#00B140" : "white",
+                  backgroundColor: copied ? "#E6F7ED" : "#1dcf9f",
+                  color: copied ? "#1dcf9f" : "white",
                 }}
               >
                 {copied ? "Copied!" : "Copy"}

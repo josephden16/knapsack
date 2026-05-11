@@ -43,7 +43,7 @@ export function PageHeader({
           {/* Logo mark */}
           <div
             className="w-9 h-9 rounded-lg flex items-center justify-center text-white font-bold text-[18px] shrink-0"
-            style={{ backgroundColor: "#00B140" }}
+            style={{ backgroundColor: "#1dcf9f" }}
           >
             K
           </div>
@@ -110,7 +110,7 @@ export function PageHeader({
                 style={
                   active
                     ? {
-                        backgroundColor: "#00B140",
+                        backgroundColor: "#1dcf9f",
                         color: "#FFFFFF",
                         fontWeight: 600,
                       }

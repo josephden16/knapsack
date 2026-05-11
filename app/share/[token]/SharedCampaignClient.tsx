@@ -141,9 +141,9 @@ export default function SharedCampaignClient({
               stageName="Top of Funnel"
               label="Awareness"
               drillPath={`${base}/top-of-funnel`}
-              color="#00B140"
+              color="#1dcf9f"
             />
-            <KpiStrip metrics={tofMetrics} funnelColor="#00B140" />
+            <KpiStrip metrics={tofMetrics} funnelColor="#1dcf9f" />
           </section>
 
           <section className="flex flex-col gap-4 mt-12">

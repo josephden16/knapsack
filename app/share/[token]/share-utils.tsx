@@ -85,7 +85,7 @@ export function LoadingScreen() {
       <div className="flex flex-col items-center gap-3">
         <div
           className="w-10 h-10 rounded-xl flex items-center justify-center"
-          style={{ backgroundColor: "#00B140" }}
+          style={{ backgroundColor: "#1dcf9f" }}
         >
           <span className="text-white font-bold text-lg">K</span>
         </div>
@@ -115,7 +115,7 @@ export function ErrorScreen({ backHref }: { backHref: string }) {
         <Link
           href={backHref}
           className="mt-2 px-5 py-2.5 rounded-lg text-[13px] font-semibold text-white"
-          style={{ backgroundColor: "#00B140" }}
+          style={{ backgroundColor: "#1dcf9f" }}
         >
           ← Back
         </Link>
@@ -131,10 +131,10 @@ export function ReadOnlyBadge() {
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path
             d="M7 1.5C4.51 1.5 2.5 3.51 2.5 6v1H2a1 1 0 00-1 1v4a1 1 0 001 1h10a1 1 0 001-1V8a1 1 0 00-1-1h-.5V6c0-2.49-2.01-4.5-4.5-4.5zm0 1.5c1.66 0 3 1.34 3 3v1H4V6c0-1.66 1.34-3 3-3z"
-            fill="#00B140"
+            fill="#1dcf9f"
           />
         </svg>
-        <span className="text-[12px] font-semibold text-[#00B140]">
+        <span className="text-[12px] font-semibold text-[#1dcf9f]">
           Read-only shared view
         </span>
       </div>

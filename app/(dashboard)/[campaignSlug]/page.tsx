@@ -81,7 +81,7 @@ function LoadingScreen() {
       <div className="flex flex-col items-center gap-3">
         <div
           className="w-10 h-10 rounded-xl flex items-center justify-center"
-          style={{ backgroundColor: "#00B140" }}
+          style={{ backgroundColor: "#1dcf9f" }}
         >
           <span className="text-white font-bold text-lg">K</span>
         </div>
@@ -140,12 +140,12 @@ export default function CampaignOverviewPage() {
           <button
             onClick={() => router.push("/")}
             className="mt-2 px-5 py-2.5 rounded-lg text-[13px] font-semibold text-white transition-colors"
-            style={{ backgroundColor: "#00B140" }}
+            style={{ backgroundColor: "#1dcf9f" }}
             onMouseEnter={(e) =>
-              (e.currentTarget.style.backgroundColor = "#008F33")
+              (e.currentTarget.style.backgroundColor = "#0be092")
             }
             onMouseLeave={(e) =>
-              (e.currentTarget.style.backgroundColor = "#00B140")
+              (e.currentTarget.style.backgroundColor = "#1dcf9f")
             }
           >
             ← Back to Campaigns
@@ -264,8 +264,8 @@ export default function CampaignOverviewPage() {
               onClick={() => setShareOpen(true)}
               className="flex items-center gap-2 px-4 py-2 rounded-lg text-[13px] font-semibold border transition-colors"
               style={{
-                borderColor: "#00B140",
-                color: "#00B140",
+                borderColor: "#1dcf9f",
+                color: "#1dcf9f",
                 background: "white",
               }}
               onMouseEnter={(e) =>
@@ -278,26 +278,26 @@ export default function CampaignOverviewPage() {
                   cx="11"
                   cy="3"
                   r="2"
-                  stroke="#00B140"
+                  stroke="#1dcf9f"
                   strokeWidth="1.3"
                 />
                 <circle
                   cx="3"
                   cy="7"
                   r="2"
-                  stroke="#00B140"
+                  stroke="#1dcf9f"
                   strokeWidth="1.3"
                 />
                 <circle
                   cx="11"
                   cy="11"
                   r="2"
-                  stroke="#00B140"
+                  stroke="#1dcf9f"
                   strokeWidth="1.3"
                 />
                 <path
                   d="M5 6L9 4M5 8L9 10"
-                  stroke="#00B140"
+                  stroke="#1dcf9f"
                   strokeWidth="1.3"
                   strokeLinecap="round"
                 />
@@ -312,9 +312,9 @@ export default function CampaignOverviewPage() {
               stageName="Top of Funnel"
               label="Awareness"
               drillPath={`/${campaignSlug}/top-of-funnel`}
-              color="#00B140"
+              color="#1dcf9f"
             />
-            <KpiStrip metrics={tofMetrics} funnelColor="#00B140" />
+            <KpiStrip metrics={tofMetrics} funnelColor="#1dcf9f" />
           </section>
 
           {/* ── Middle of Funnel — Consideration ─────────────────── */}

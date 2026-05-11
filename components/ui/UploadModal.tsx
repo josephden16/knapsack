@@ -129,14 +129,14 @@ export function UploadModal({ onClose, onUploaded }: UploadModalProps) {
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                   <path
                     d="M11 2H5a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V8l-6-6z"
-                    stroke="#00B140"
+                    stroke="#1dcf9f"
                     strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                   />
                   <path
                     d="M11 2v6h6"
-                    stroke="#00B140"
+                    stroke="#1dcf9f"
                     strokeWidth="1.5"
                     strokeLinecap="round"
                     strokeLinejoin="round"

@@ -31,7 +31,7 @@ import {
   formatDateRange,
 } from "../../share-utils";
 
-const TOF_GREEN = "#00B140";
+const TOF_GREEN = "#1dcf9f";
 const TOF_FILL = "#E6F7ED";
 
 function toMonthly(rows: DataRow[], key: string): MonthlyPoint[] {

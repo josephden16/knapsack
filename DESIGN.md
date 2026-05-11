@@ -4,9 +4,9 @@
 
 KnapSack is a professional marketing intelligence dashboard — the kind of tool a senior marketing director opens on a Monday morning to understand how a $1M campaign is performing. The design must communicate precision, clarity, and brand confidence simultaneously. It is built entirely on OPay's signature green and white, a palette that is optimistic and energetic without sacrificing the seriousness required of financial and performance data.
 
-The canvas is clean white (`#FFFFFF`) with a barely-there off-white page wash (`#F4F6F8`) that separates content panels from the background without introducing visual noise. All data lives on white card surfaces, elevated with a soft, cool-tinted shadow. The primary interactive color is OPay's `#00B140` — a vivid, saturated green that reads as growth, forward momentum, and brand ownership. It appears on buttons, the logo mark, the Top of Funnel accent, and the active state of every toggle.
+The canvas is clean white (`#FFFFFF`) with a barely-there off-white page wash (`#F4F6F8`) that separates content panels from the background without introducing visual noise. All data lives on white card surfaces, elevated with a soft, cool-tinted shadow. The primary interactive color is OPay's `#1dcf9f` — a vivid, saturated green that reads as growth, forward momentum, and brand ownership. It appears on buttons, the logo mark, the Top of Funnel accent, and the active state of every toggle.
 
-Three distinct accent colors allow each funnel stage to be immediately scannable without reading a label: **OPay green** (`#00B140`) for Awareness, **professional blue** (`#0066CC`) for Consideration, and **amber** (`#F5A623`) for Conversion. These colors appear consistently as left borders on KPI cards, top borders on channel cards, fills on chart elements, and backgrounds on funnel banner rows — creating a visual language where color = funnel stage everywhere in the product.
+Three distinct accent colors allow each funnel stage to be immediately scannable without reading a label: **OPay green** (`#1dcf9f`) for Awareness, **professional blue** (`#0066CC`) for Consideration, and **amber** (`#F5A623`) for Conversion. These colors appear consistently as left borders on KPI cards, top borders on channel cards, fills on chart elements, and backgrounds on funnel banner rows — creating a visual language where color = funnel stage everywhere in the product.
 
 The typography is **Inter** — a geometric sans-serif purpose-built for screens and interface density. At KPI display sizes (28–32px), Inter runs at weight 700, making numbers feel authoritative and immediately readable at a glance. Labels are small-caps uppercase in weight 600 with tracked letter-spacing, echoing the conventions of Bloomberg terminals and financial dashboards. Chart axis text drops to 11px at weight 400 in muted gray, receding so it doesn't compete with the data.
 
@@ -14,7 +14,7 @@ Elevation is minimal and functional. Cards sit at Level 1 (a single soft shadow)
 
 **Key Characteristics:**
 
-- OPay green (`#00B140`) as the dominant brand signal — on logo, buttons, active states, and ToF visuals
+- OPay green (`#1dcf9f`) as the dominant brand signal — on logo, buttons, active states, and ToF visuals
 - Three-color funnel system (green / blue / amber) that encodes stage identity across every view
 - White card surfaces on off-white page — separation without contrast shock
 - Inter at weight 700 for KPI values — data first, decoration never
@@ -29,15 +29,15 @@ Elevation is minimal and functional. Cards sit at Level 1 (a single soft shadow)
 
 ### Brand
 
-- **OPay Green** (`#00B140`): Primary brand color. Logo mark background, primary buttons, active toggle state, Top of Funnel accent, chart fill for Awareness data. The color owns the screen — use it deliberately.
-- **OPay Green Dark** (`#008F33`): Hover and pressed state on green buttons and interactive elements.
+- **OPay Green** (`#1dcf9f`): Primary brand color. Logo mark background, primary buttons, active toggle state, Top of Funnel accent, chart fill for Awareness data. The color owns the screen — use it deliberately.
+- **OPay Green Dark** (`#0be092`): Hover and pressed state on green buttons and interactive elements.
 - **OPay Green Light** (`#E6F7ED`): Pale green tint for badge backgrounds, active row highlights, and subtle success states.
 
 ### Funnel Accent Colors
 
 Each funnel stage owns a color. These three colors must be applied consistently across KPI card borders, channel card borders, banner backgrounds, chart strokes/fills, and stage pills.
 
-- **ToF — OPay Green** (`#00B140`): Top of Funnel / Awareness
+- **ToF — OPay Green** (`#1dcf9f`): Top of Funnel / Awareness
 - **MoF — Professional Blue** (`#0066CC`): Middle of Funnel / Consideration
 - **BoF — Amber** (`#F5A623`): Bottom of Funnel / Conversion
 
@@ -66,7 +66,7 @@ Each funnel stage owns a color. These three colors must be applied consistently 
 
 ### Status Badges
 
-- **Active** — background: `#E6F7ED`, text: `#00B140`, border: `1px solid #A7F3C0`
+- **Active** — background: `#E6F7ED`, text: `#1dcf9f`, border: `1px solid #A7F3C0`
 - **Completed** — background: `#EFF6FF`, text: `#0066CC`, border: `1px solid #BFDBFE`
 
 ### Shadow Colors
@@ -122,22 +122,22 @@ Each funnel stage owns a color. These three colors must be applied consistently 
 
 **Primary — OPay Green**
 
-- Background: `#00B140`
+- Background: `#1dcf9f`
 - Text: `#FFFFFF`
 - Padding: `10px 20px`
 - Radius: `8px`
 - Font: 14px Inter weight 600
-- Hover: background `#008F33`
+- Hover: background `#0be092`
 - Active: background `#007A2C`
 - Use: "Upload Campaign", primary actions
 
 **Secondary — Outlined**
 
 - Background: `#FFFFFF`
-- Text: `#00B140`
+- Text: `#1dcf9f`
 - Padding: `10px 20px`
 - Radius: `8px`
-- Border: `1px solid #00B140`
+- Border: `1px solid #1dcf9f`
 - Hover: background `#E6F7ED`
 - Use: "Download Template", secondary actions
 
@@ -165,7 +165,7 @@ Each funnel stage owns a color. These three colors must be applied consistently 
 A pill-shaped toggle container holding two options.
 
 - **Container**: background `#F4F6F8`, border-radius `999px`, padding `3px`
-- **Active button**: background `#00B140`, text `#FFFFFF`, border-radius `999px`, padding `6px 16px`, font 13px weight 600
+- **Active button**: background `#1dcf9f`, text `#FFFFFF`, border-radius `999px`, padding `6px 16px`, font 13px weight 600
 - **Inactive button**: background transparent, text `#4B5563`, border-radius `999px`, padding `6px 16px`, font 13px weight 500
 - Hover on inactive: text `#0D1117`
 
@@ -234,7 +234,7 @@ Wraps each ChartPair (monthly + quarterly charts side by side).
 Used on the KOL/Influencer detail page.
 
 - Chart type: Recharts `PieChart` with `innerRadius` set to ~55% of outerRadius (donut, not pie)
-- Segments: Positive (`#00B140` green), Neutral (`#D1D5DB` gray), Negative (`#F87171` soft red)
+- Segments: Positive (`#1dcf9f` green), Neutral (`#D1D5DB` gray), Negative (`#F87171` soft red)
 - Percentage labels: positioned outside segments, `12px weight 600`, matching segment color
 - Legend: horizontal below chart, small colored squares + label text at `12px #4B5563`
 - No hover animations — this is static data
@@ -250,7 +250,7 @@ Used on the KOL/Influencer detail page.
 ### GRP Horizontal Bar Chart
 
 - Layout: `BarChart layout="vertical"` (Recharts)
-- Bar fill: `#00B140` (always ToF green, as this is a ToF channel)
+- Bar fill: `#1dcf9f` (always ToF green, as this is a ToF channel)
 - Bar corner radius: `4px` on right corners only
 - Value label: at end of bar, `12px weight 600 #0D1117`
 - Channel name labels: left-aligned, `13px #4B5563`
@@ -261,7 +261,7 @@ Used on the KOL/Influencer detail page.
 **Active**
 
 - Background: `#E6F7ED`
-- Text: `#00B140`
+- Text: `#1dcf9f`
 - Border: `1px solid #A7F3C0`
 - Radius: `999px`
 - Padding: `3px 10px`
@@ -298,7 +298,7 @@ Pill badge displayed in the page header to identify the current funnel stage.
 - Divider: `1px solid #E5E7EB`
 - Metric labels (BUDGET, SPEND, ROI): `11px uppercase #9CA3AF letter-spacing: 0.07em`
 - Metric values: `20px weight 700 #0D1117 tnum`
-- "Open →" link: `13px weight 600 #00B140` right-aligned, hover `#008F33`
+- "Open →" link: `13px weight 600 #1dcf9f` right-aligned, hover `#0be092`
 
 ### Navigation / Page Header
 
@@ -308,7 +308,7 @@ Sticky top bar that appears on all pages except the Home page.
 - Border-bottom: `1px solid #E5E7EB`
 - Height: `64px`
 - Shadow: `rgba(0, 71, 28, 0.06) 0px 2px 4px`
-- Left: Logo mark (green `#00B140` rounded square `36px`, white "K" at `18px weight 700`) + "KnapSack" (`18px weight 700 #0D1117`) + separator "·" (`#D1D5DB`) + campaign name (`18px weight 600 #0D1117`)
+- Left: Logo mark (green `#1dcf9f` rounded square `36px`, white "K" at `18px weight 700`) + "KnapSack" (`18px weight 700 #0D1117`) + separator "·" (`#D1D5DB`) + campaign name (`18px weight 600 #0D1117`)
 - Sub-line: breadcrumb path at `13px #4B5563`
 - Right: Monthly/Quarterly toggle + Stage Pill (if applicable)
 
@@ -318,7 +318,7 @@ Sticky top bar that appears on all pages except the Home page.
 - Modal: `#FFFFFF`, `border-radius: 16px`, shadow Level 2, `padding: 32px`, max-width `520px`
 - Title: `20px weight 700 #0D1117`
 - Drop zone: `border: 2px dashed #D1D5DB`, `border-radius: 12px`, background `#F9FAFB`, padding `40px`, centered text `14px #9CA3AF`
-- Drop zone hover / drag-over: `border-color: #00B140`, background `#E6F7ED`
+- Drop zone hover / drag-over: `border-color: #1dcf9f`, background `#E6F7ED`
 - Error messages: `12px #EF4444` below the affected field
 - Action row: Cancel (Ghost) + Upload (Primary Green) right-aligned
 
@@ -387,7 +387,7 @@ Never use radius larger than `16px` on any container. Never use `0px` radius on 
 
 ### Do
 
-- Use `#00B140` OPay green as the only primary interactive color — buttons, active states, ToF visuals
+- Use `#1dcf9f` OPay green as the only primary interactive color — buttons, active states, ToF visuals
 - Apply the three-color funnel system (green / blue / amber) consistently across every view that belongs to a funnel stage
 - Use `font-feature-settings: "tnum"` on every number that appears in a table column, KPI card, chart axis, or chart value label
 - Use weight 700 for all KPI metric values — this is the visual hierarchy anchor of the whole product
@@ -442,8 +442,8 @@ Never use radius larger than `16px` on any container. Never use `0px` radius on 
 
 ### Quick Color Reference
 
-- Primary brand / ToF / buttons: OPay Green (`#00B140`)
-- Button hover: OPay Green Dark (`#008F33`)
+- Primary brand / ToF / buttons: OPay Green (`#1dcf9f`)
+- Button hover: OPay Green Dark (`#0be092`)
 - MoF accent: Professional Blue (`#0066CC`)
 - BoF accent: Amber (`#F5A623`)
 - Page background: Off-white (`#F4F6F8`)
@@ -456,21 +456,21 @@ Never use radius larger than `16px` on any container. Never use `0px` radius on 
 
 ### Example Component Prompts
 
-- "Create a KPI card on white background (`#FFFFFF`), `border-radius: 10px`, shadow `rgba(0, 71, 28, 0.08) 0px 2px 8px`, left border `3px solid #00B140`. Label: `REACH`, 11px Inter weight 600, uppercase, letter-spacing 0.07em, color `#9CA3AF`. Value: `12.4M`, 32px Inter weight 700, letter-spacing -0.5px, color `#0D1117`, `font-feature-settings: 'tnum'`."
+- "Create a KPI card on white background (`#FFFFFF`), `border-radius: 10px`, shadow `rgba(0, 71, 28, 0.08) 0px 2px 8px`, left border `3px solid #1dcf9f`. Label: `REACH`, 11px Inter weight 600, uppercase, letter-spacing 0.07em, color `#9CA3AF`. Value: `12.4M`, 32px Inter weight 700, letter-spacing -0.5px, color `#0D1117`, `font-feature-settings: 'tnum'`."
 
-- "Build a funnel banner row for Top of Funnel. Background `#00B140`, border-radius `10px`, padding `14px 20px`. Left text: 'Top of Funnel' in 15px Inter weight 700 white + ' — Awareness' in 15px weight 400 `rgba(255,255,255,0.75)`. Right text: 'Drill in →' in 13px weight 600 white, right-aligned. Hover: `filter: brightness(0.92)`."
+- "Build a funnel banner row for Top of Funnel. Background `#1dcf9f`, border-radius `10px`, padding `14px 20px`. Left text: 'Top of Funnel' in 15px Inter weight 700 white + ' — Awareness' in 15px weight 400 `rgba(255,255,255,0.75)`. Right text: 'Drill in →' in 13px weight 600 white, right-aligned. Hover: `filter: brightness(0.92)`."
 
-- "Create an area line chart (Recharts AreaChart) for monthly Reach data. Stroke color `#00B140`, strokeWidth 2, area fill `#E6F7ED`. Gridlines: horizontal only, stroke `#F3F4F6`, strokeDasharray `4 2`. Dots: r=4, fill `#00B140`, stroke white 2px. X-axis: month abbreviations (Jan–Jun), 11px `#9CA3AF`. Y-axis: abbreviated numbers, 11px `#9CA3AF`. Chart title above: 'Reach (K) · Monthly', 13px Inter weight 600 `#0D1117`."
+- "Create an area line chart (Recharts AreaChart) for monthly Reach data. Stroke color `#1dcf9f`, strokeWidth 2, area fill `#E6F7ED`. Gridlines: horizontal only, stroke `#F3F4F6`, strokeDasharray `4 2`. Dots: r=4, fill `#1dcf9f`, stroke white 2px. X-axis: month abbreviations (Jan–Jun), 11px `#9CA3AF`. Y-axis: abbreviated numbers, 11px `#9CA3AF`. Chart title above: 'Reach (K) · Monthly', 13px Inter weight 600 `#0D1117`."
 
-- "Design a campaign card on white (`#FFFFFF`), border-radius 12px, shadow `rgba(0, 71, 28, 0.08) 0px 2px 8px`, left border `4px solid #00B140`. Campaign name 'Extra Cover' at 18px weight 700 `#0D1117`. Date range 'Jan — Jun 2025' at 13px `#9CA3AF`. Divider `1px solid #E5E7EB`. Metric row: BUDGET / SPEND / ROI labels at 11px uppercase `#9CA3AF` letter-spacing 0.07em; values `$1.35M`, `$1.18M`, `3.8x` at 20px weight 700 `#0D1117` tnum. Status pill 'Active': background `#E6F7ED`, text `#00B140`, border `1px solid #A7F3C0`, radius 999px, 3px 10px padding, 11px weight 600 uppercase. 'Open →' link 13px weight 600 `#00B140` right-aligned."
+- "Design a campaign card on white (`#FFFFFF`), border-radius 12px, shadow `rgba(0, 71, 28, 0.08) 0px 2px 8px`, left border `4px solid #1dcf9f`. Campaign name 'Extra Cover' at 18px weight 700 `#0D1117`. Date range 'Jan — Jun 2025' at 13px `#9CA3AF`. Divider `1px solid #E5E7EB`. Metric row: BUDGET / SPEND / ROI labels at 11px uppercase `#9CA3AF` letter-spacing 0.07em; values `$1.35M`, `$1.18M`, `3.8x` at 20px weight 700 `#0D1117` tnum. Status pill 'Active': background `#E6F7ED`, text `#1dcf9f`, border `1px solid #A7F3C0`, radius 999px, 3px 10px padding, 11px weight 600 uppercase. 'Open →' link 13px weight 600 `#1dcf9f` right-aligned."
 
-- "Build the Monthly/Quarterly toggle. Container: background `#F4F6F8`, border-radius `999px`, padding `3px`, display inline-flex. Active button ('Monthly'): background `#00B140`, text white, border-radius `999px`, padding `6px 16px`, 13px Inter weight 600. Inactive button ('Quarterly'): background transparent, text `#4B5563`, border-radius `999px`, padding `6px 16px`, 13px Inter weight 500. Inactive hover: text `#0D1117`."
+- "Build the Monthly/Quarterly toggle. Container: background `#F4F6F8`, border-radius `999px`, padding `3px`, display inline-flex. Active button ('Monthly'): background `#1dcf9f`, text white, border-radius `999px`, padding `6px 16px`, 13px Inter weight 600. Inactive button ('Quarterly'): background transparent, text `#4B5563`, border-radius `999px`, padding `6px 16px`, 13px Inter weight 500. Inactive hover: text `#0D1117`."
 
-- "Create the page header bar. Background `#FFFFFF`, border-bottom `1px solid #E5E7EB`, height 64px, shadow `rgba(0, 71, 28, 0.06) 0px 2px 4px`. Left: green square logo mark (36px, background `#00B140`, border-radius 8px, white 'K' at 18px weight 700) + 'KnapSack' at 18px weight 700 `#0D1117` + '·' separator at `#D1D5DB` + campaign name at 18px weight 600 `#0D1117`. Sub-line: 'Campaign Overview | Jan — Jun 2025 | Budget: $1.35M' at 13px `#4B5563`. Right: Monthly/Quarterly toggle."
+- "Create the page header bar. Background `#FFFFFF`, border-bottom `1px solid #E5E7EB`, height 64px, shadow `rgba(0, 71, 28, 0.06) 0px 2px 4px`. Left: green square logo mark (36px, background `#1dcf9f`, border-radius 8px, white 'K' at 18px weight 700) + 'KnapSack' at 18px weight 700 `#0D1117` + '·' separator at `#D1D5DB` + campaign name at 18px weight 600 `#0D1117`. Sub-line: 'Campaign Overview | Jan — Jun 2025 | Budget: $1.35M' at 13px `#4B5563`. Right: Monthly/Quarterly toggle."
 
 ### Iteration Guide
 
-1. **Funnel color = stage identity**: Every element on a ToF page uses `#00B140`. Every MoF element uses `#0066CC`. Every BoF element uses `#F5A623`. Never mix.
+1. **Funnel color = stage identity**: Every element on a ToF page uses `#1dcf9f`. Every MoF element uses `#0066CC`. Every BoF element uses `#F5A623`. Never mix.
 2. **`tnum` on every number**: Add `font-feature-settings: "tnum"` to any element displaying a metric, chart value, or financial figure.
 3. **Weight 700 for KPI values, 600 for labels, 400 for body**: The three-weight system is the hierarchy signal.
 4. **Shadow formula**: `rgba(0, 71, 28, 0.08) 0px 2px 8px 0px` for Level 1 (all cards). `rgba(0, 71, 28, 0.12) 0px 8px 24px -4px, rgba(0, 0, 0, 0.06) 0px 4px 12px -2px` for Level 2 (modals).

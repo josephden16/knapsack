@@ -24,7 +24,7 @@ import {
   formatDateRange,
 } from "../share-utils";
 
-const TOF_GREEN = "#00B140";
+const TOF_GREEN = "#1dcf9f";
 
 export default function ShareTofPage() {
   const { token } = useParams<{ token: string }>();

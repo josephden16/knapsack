@@ -9,11 +9,11 @@ module.exports = {
     extend: {
       colors: {
         // OPay Brand
-        "opay-green": "#00B140",
-        "opay-green-dark": "#008F33",
+        "opay-green": "#1dcf9f",
+        "opay-green-dark": "#0be092",
         "opay-green-light": "#E6F7ED",
         // Funnel accent colors
-        tof: "#00B140", // Top of Funnel — Awareness
+        tof: "#1dcf9f", // Top of Funnel — Awareness
         mof: "#0066CC", // Middle of Funnel — Consideration
         bof: "#F5A623", // Bottom of Funnel — Conversion
         // Chart fill backgrounds

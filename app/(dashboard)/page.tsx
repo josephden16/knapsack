@@ -65,7 +65,7 @@ function StatusPill({ status }: { status: "active" | "completed" }) {
       className="px-[10px] py-[3px] rounded-full text-[11px] font-semibold uppercase tracking-[0.02em] whitespace-nowrap"
       style={{
         background: isActive ? "#E6F7ED" : "#EFF6FF",
-        color: isActive ? "#00B140" : "#0066CC",
+        color: isActive ? "#1dcf9f" : "#0066CC",
         border: `1px solid ${isActive ? "#A7F3C0" : "#BFDBFE"}`,
       }}
     >
@@ -162,7 +162,7 @@ function CampaignCard({
 }) {
   const router = useRouter();
   const isActive = campaign.status === "active";
-  const accentColor = isActive ? "#00B140" : "#0066CC";
+  const accentColor = isActive ? "#1dcf9f" : "#0066CC";
 
   return (
     <div
@@ -280,19 +280,19 @@ function EmptyState({ onUpload }: { onUpload: () => void }) {
             <path
               d="M10 5h13l7 7v20a2 2 0 01-2 2H10a2 2 0 01-2-2V7a2 2 0 012-2z"
               fill="#E6F7ED"
-              stroke="#00B140"
+              stroke="#1dcf9f"
               strokeWidth="1.5"
               strokeLinejoin="round"
             />
             <path
               d="M23 5v7h7"
-              stroke="#00B140"
+              stroke="#1dcf9f"
               strokeWidth="1.5"
               strokeLinejoin="round"
             />
             <path
               d="M18 16v9M14 21h8"
-              stroke="#00B140"
+              stroke="#1dcf9f"
               strokeWidth="2"
               strokeLinecap="round"
             />
@@ -443,7 +443,7 @@ export default function HomePage() {
       <div
         className="relative overflow-hidden"
         style={{
-          background: "linear-gradient(135deg, #00B140 0%, #007A2C 100%)",
+          background: "linear-gradient(135deg, #1dcf9f 0%, #0be092 100%)",
         }}
       >
         {/* Decorative dot grid */}
@@ -533,7 +533,7 @@ export default function HomePage() {
               className="flex items-center gap-2 px-5 py-2.5 rounded-lg text-[14px] font-semibold transition-colors"
               style={{
                 background: "#ffffff",
-                color: "#00B140",
+                color: "#1dcf9f",
               }}
               onMouseOver={(e) =>
                 (e.currentTarget.style.background = "#E6F7ED")
@@ -543,14 +543,14 @@ export default function HomePage() {
               <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
                 <path
                   d="M7.5 9.5V2M7.5 2L5 4.5M7.5 2L10 4.5"
-                  stroke="#00B140"
+                  stroke="#1dcf9f"
                   strokeWidth="1.5"
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
                 <path
                   d="M2 10.5v1a1.5 1.5 0 001.5 1.5h8A1.5 1.5 0 0013 11.5v-1"
-                  stroke="#00B140"
+                  stroke="#1dcf9f"
                   strokeWidth="1.5"
                   strokeLinecap="round"
                 />
@@ -620,7 +620,7 @@ export default function HomePage() {
                 className="ml-2 px-2 py-0.5 rounded-full text-[11px] font-bold"
                 style={{
                   background: "#E6F7ED",
-                  color: "#00B140",
+                  color: "#1dcf9f",
                   verticalAlign: "middle",
                 }}
               >
